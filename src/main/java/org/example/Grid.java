@@ -1,6 +1,8 @@
 package org.example;
 
 import org.example.Exceptions.InvalidGridSizeException;
+import org.example.Exceptions.InvalidPercentageException;
+
 import java.util.Random;
 
 public class Grid {
@@ -12,6 +14,9 @@ public class Grid {
         if (rows < 3 || cols < 3) {
             throw new InvalidGridSizeException("Grid size must be at least 3x3");
         }
+        if(seedPercentage < 0 || seedPercentage > 100) {
+            throw new InvalidPercentageException("Seed percentage must be between 0 and 100");
+        }
         this.rows = rows;
         this.cols = cols;
         cells = new Cell[rows][cols];
@@ -21,7 +26,7 @@ public class Grid {
     private void initializeGrid(double seedPercentage) {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                cells[i][j] = new Cell();  // Initialize each cell
+                cells[i][j] = new Cell();
             }
         }
 
