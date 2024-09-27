@@ -1,23 +1,22 @@
 package org.example;
 
+import org.example.Exceptions.InvalidGridSizeException;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameOfLifeTest {
 
     @Test
-    public void testBasicGridForOneCellAlive(){
-        GameOfLife gameOfLife = new GameOfLife(3);
-        Grid deadGrid = new Grid(3,3);
-        List<int[]> initialCellAlive = new ArrayList<>();
-        initialCellAlive.add(new int[]{1,1});
-
-        gameOfLife.startGame(initialCellAlive);
-
+    public void testInValidGridException(){
+        assertThrows(InvalidGridSizeException.class, () -> {new GameOfLife(2,2,10.0);});
     }
+
+    @Test
+    public void testInValidGridSizeException2rows3cols(){
+        assertThrows(InvalidGridSizeException.class, () -> {new GameOfLife(2,3,10.0);});
+    }
+
+
 
 }

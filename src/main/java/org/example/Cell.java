@@ -3,15 +3,16 @@ package org.example;
 public class Cell {
     private boolean isAlive;
 
-    public Cell() {
-        this.isAlive = false;
+    public Cell(boolean cellState) {
+        this.isAlive = cellState;
     }
 
     public boolean isAlive() {
         return isAlive;
     }
 
-    public void setAlive() {
-        this.isAlive = true;
+    public void setCellStatus(boolean cellState) {
+        this.isAlive = cellState;
     }
+
 }

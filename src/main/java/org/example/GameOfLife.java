@@ -1,39 +1,45 @@
 package org.example;
 
-import org.example.Exceptions.EmptyInputException;
 import org.example.Exceptions.InvalidGridSizeException;
 
-import java.util.List;
+import java.util.Scanner;
 
 public class GameOfLife {
     private Grid grid;
+    private int row;
+    private int column;
+    private Scanner scanner;
 
-    public GameOfLife(int gridSize) throws InvalidGridSizeException {
-        if(gridSize <= 2) {
-            throw new InvalidGridSizeException("Grid size must be greater than 2");
-        }
-        this.grid = new Grid(gridSize, gridSize);
+    public GameOfLife(int row, int column, Double seedPercentage) throws InvalidGridSizeException {
+        this.row = row;
+        this.column = column;
+        this.scanner = new Scanner(System.in);
+        this.grid = new Grid(this.row, this.column, seedPercentage);
     }
 
-    private void setupInitialStage(List<int[]> aliveCells) throws EmptyInputException {
-        if(aliveCells.isEmpty()) {
-            throw new EmptyInputException("No cells are alive initially Game Stop");
-        }
-        for (int[] coordinates : aliveCells) {
-            if (coordinates.length == 2) {
-                int row = coordinates[0];
-                int col = coordinates[1];
-                grid.setCellAlive(row, col);
-            } else {
-                System.out.println("Invalid coordinates");
+
+    public void startGame() {
+        int generation = 0;
+        boolean hasAliveCells = true;
+
+        while(hasAliveCells) {
+            hasAliveCells = grid.checkGridStatus();
+            System.out.println("Generation #" + generation);
+            grid.displayGrid();
+            System.out.println("Press Enter to continue or type 'q' to quit:");
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("q")) {
+                break;
             }
+            grid.evolve();
+            generation++;
+        }
+        if(!hasAliveCells) {
+            System.out.println("All cells are dead.");
         }
     }
 
-    public void startGame(List<int[]> aliveCells) {
-        // getting input from the user for the initial alive cells
-        setupInitialStage(aliveCells);
-    }
+
 
 
 }
