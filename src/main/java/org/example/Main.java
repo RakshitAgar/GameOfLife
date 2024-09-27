@@ -13,7 +13,7 @@ public class Main {
         System.out.println("Enter seed percentage (0-100):");
         double seedPercentage = scanner.nextDouble() / 100.0;
 
-        GameOfLife game = new GameOfLife(m, n, seedPercentage);
+        GameOfLife game = new GameOfLife(m, n, seedPercentage,scanner);
         game.startGame();
 
         scanner.close();

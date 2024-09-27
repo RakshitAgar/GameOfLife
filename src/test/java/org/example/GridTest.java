@@ -23,11 +23,37 @@ class GridTest {
     }
 
     @Test
+    public void testValidGridWhenPercentageIs20() {
+        Grid grid = new Grid(5,5,20.0);
+        int expectedAliveCount = 0;
+        for(int i = 0;i<5;i++){
+            for(int j = 0;j<5;j++){
+                if(grid.checkCellStatus(i,j)) expectedAliveCount++;
+            }
+        }
+
+        assertEquals(expectedAliveCount,5);
+    }
+
+    @Test
+    public void testValidGridWhenPercentageIs1() {
+        Grid grid = new Grid(5,5,1.0);
+        int expectedAliveCount = 0;
+        for(int i = 0;i<5;i++){
+            for(int j = 0;j<5;j++){
+                if(grid.checkCellStatus(i,j)) expectedAliveCount++;
+            }
+        }
+
+        assertEquals(expectedAliveCount,0);
+    }
+
+    @Test
     public void testGridInitializationUsingCellStatus() {
         Grid grid = new Grid(3,3,1.0);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                assertTrue(grid.checkCellStatus(i, j));
+                assertFalse(grid.checkCellStatus(i, j));
             }
         }
     }
@@ -45,4 +71,6 @@ class GridTest {
         grid.checkGridStatus();
         verify(grid,times(9)).checkCellStatus(anyInt(), anyInt());
     }
+
+
 }

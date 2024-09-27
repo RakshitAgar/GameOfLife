@@ -3,19 +3,57 @@ package org.example;
 import org.example.Exceptions.InvalidGridSizeException;
 import org.junit.jupiter.api.Test;
 
+import java.util.Scanner;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class GameOfLifeTest {
 
     @Test
     public void testInValidGridException(){
-        assertThrows(InvalidGridSizeException.class, () -> {new GameOfLife(2,2,10.0);});
+        Scanner scanner = new Scanner(System.in);
+        assertThrows(InvalidGridSizeException.class, () -> {new GameOfLife(2,2,10.0,scanner);});
     }
 
     @Test
     public void testInValidGridSizeException2rows3cols(){
-        assertThrows(InvalidGridSizeException.class, () -> {new GameOfLife(2,3,10.0);});
+        Scanner scanner = new Scanner(System.in);
+        assertThrows(InvalidGridSizeException.class, () -> {new GameOfLife(2,3,10.0,scanner);});
     }
+
+    @Test
+    public void testWhenGridHasZeroCellAlive() {
+        Scanner scanner = new Scanner(System.in);
+        GameOfLife game = spy(new GameOfLife(4,4,1.0,scanner));
+        game.startGame();
+        verify(game,times(0)).evolve();
+    }
+
+    @Test
+    public void testGameGridAfterOneEvolveOnly() {
+        Scanner mockedScanner = mock(Scanner.class);
+        when(mockedScanner.nextLine())
+                .thenReturn("")
+                .thenReturn("q");
+        // Going to two generation then stopping
+        GameOfLife game = spy(new GameOfLife(4,4,25.0,mockedScanner));
+        game.startGame();
+        verify(game,times(1)).evolve();
+    }
+
+    @Test
+    public void testGameGridWithQuitOnFirstChance() {
+        Scanner mockedScanner = mock(Scanner.class);
+        when(mockedScanner.nextLine())
+        .thenReturn("q");
+        GameOfLife game = spy(new GameOfLife(4,4,30.0,mockedScanner));
+        game.startGame();
+
+        //evolve is not called once
+        verify(game,times(0)).evolve();
+    }
+
 
 
 
