@@ -16,6 +16,7 @@ public class GameOfLife {
         this.grid = new Grid(this.row, this.column, seedPercentage);
     }
 
+
     public void startGame() {
         int generation = 0;
         boolean hasAliveCells = grid.checkGridStatus();
