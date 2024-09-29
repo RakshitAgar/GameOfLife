@@ -11,7 +11,7 @@ public class Cell {
         return isAlive;
     }
 
-    public void setCellStatus(boolean cellState) {
+    public void changeCellStatus(boolean cellState) {
         this.isAlive = cellState;
     }
 

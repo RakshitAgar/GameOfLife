@@ -40,7 +40,7 @@ public class Grid {
             int randomCol = random.nextInt(cols);
 
             if (!cells[randomRow][randomCol].isAlive()) {
-                cells[randomRow][randomCol].setCellStatus(true);
+                cells[randomRow][randomCol].changeCellStatus(true);
                 aliveCells++;
             }
         }
@@ -51,7 +51,7 @@ public class Grid {
     }
 
     public void setCellStatus(int row, int col, boolean status) {
-        cells[row][col].setCellStatus(status);
+        cells[row][col].changeCellStatus(status);
     }
 
     public boolean checkGridStatus() {

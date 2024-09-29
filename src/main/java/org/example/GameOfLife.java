@@ -49,11 +49,7 @@ public class GameOfLife {
 
                 if (currentState && (aliveNeighbors == 2 || aliveNeighbors == 3)) {
                     nextGeneration[row][col] = true;
-                } else if (!currentState && aliveNeighbors == 3) {
-                    nextGeneration[row][col] = true;
-                } else {
-                    nextGeneration[row][col] = false;
-                }
+                } else nextGeneration[row][col] = !currentState && aliveNeighbors == 3;
             }
         }
 
