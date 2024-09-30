@@ -3,13 +3,13 @@ package org.example;
 import org.example.Exceptions.InvalidGridSizeException;
 import java.util.Scanner;
 
-public class GameOfLife {
+public class Game {
     private Grid grid;
     private int row;
     private int column;
     private Scanner scanner;
 
-    public GameOfLife(int row, int column, Double seedPercentage, Scanner scanner) throws InvalidGridSizeException {
+    public Game(int row, int column, Double seedPercentage, Scanner scanner) throws InvalidGridSizeException {
         this.row = row;
         this.column = column;
         this.scanner = scanner;
