@@ -8,7 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class GridTest {
 
@@ -17,6 +16,18 @@ class GridTest {
         assertDoesNotThrow(() -> {
             new Grid(3,3,50.0);
         });
+    }
+
+    @Test
+    public void testLargeGridCreationWithProperSize() {
+        Grid grid = new Grid(100, 100, 50.0);
+        assertTrue(grid.hasAliveCells());
+    }
+
+    @Test
+    public void testAsymmetricGridCreation() {
+        Grid grid = new Grid(3, 5, 50.0);
+        assertTrue(grid.hasAliveCells());
     }
 
     @Test
@@ -43,55 +54,15 @@ class GridTest {
     @Test
     public void testValidGridWhenPercentageIs20() {
         Grid grid = new Grid(5,5,20.0);
-        int expectedAliveCount = 0;
-        for(int i = 0;i<5;i++){
-            for(int j = 0;j<5;j++){
-                if(grid.checkCellStatus(i,j)) expectedAliveCount++;
-            }
-        }
-
-        assertEquals(expectedAliveCount,5);
+        assertTrue(grid.hasAliveCells());
     }
 
     @Test
     public void testValidGridWhenPercentageIs1() {
         Grid grid = new Grid(5,5,1.0);
-        int expectedAliveCount = 0;
-        for(int i = 0;i<5;i++){
-            for(int j = 0;j<5;j++){
-                if(grid.checkCellStatus(i,j)) expectedAliveCount++;
-            }
-        }
-
-        assertEquals(expectedAliveCount,0);
+        assertFalse(grid.hasAliveCells());
     }
 
-    @Test
-    public void testGridWith100SeedPercentage() {
-        Grid grid = new Grid(10,10,100.0);
-        //when each of the cell is alive
-        assertTrue(grid.checkGridStatus());
-    }
-
-    @Test
-    public void testGridInitializationUsingCellStatus() {
-        Grid grid = new Grid(3,3,1.0);
-        assertFalse(grid.checkGridStatus());
-    }
-
-    @Test
-    public void testDisplayGridWthProperSize() {
-        Grid grid = spy(new Grid(3,3,50.0));
-        grid.displayGrid();
-        verify(grid,times(9)).checkCellStatus(anyInt(), anyInt());
-    }
-
-    @Test
-    public void testGridStatusCheckingCellStatusWithZeroCellsAlive() {
-        Grid grid = spy(new Grid(3,3,0.0));
-        grid.checkGridStatus();
-        verify(grid,times(9)).checkCellStatus(anyInt(), anyInt());
-    }
 
     @Test
     public void testGridDisplay() {
@@ -108,18 +79,39 @@ class GridTest {
     }
 
     @Test
-    public void testDisplayGridWhenSomeCellAlive() {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
+    public void testMultipleEvolveWithAliveCells() {
+        Grid grid = new Grid(4,4,50.0);
+        grid.evolve();
+        grid.evolve();
+        assertTrue(grid.hasAliveCells());
+    }
 
-        Grid grid = new Grid(3,3,0.0);
-        grid.setCellStatus(1,1,true);
-        grid.displayGrid();
+    @Test
+    public void testGridEvolveWithCellsAlive() {
+        Grid grid = new Grid(4,4,50.0);
+        grid.evolve();
+        assertTrue(grid.hasAliveCells());
+    }
 
-        String expectedOutput = "□ □ □ \n□ ■ □ \n□ □ □ \n\n";
-        assertEquals(expectedOutput,outContent.toString());
+    @Test
+    public void testGridEvolveWithZeroCellAlive() {
+        Grid grid = new Grid(4,4,0.0);
+        grid.evolve();
+        assertFalse(grid.hasAliveCells());
+    }
 
-        System.setOut(System.out);
+    @Test
+    public void testGridEvolveFunctionWithZeroAliveCellsAfterMultipleEvolve(){
+        Grid grid = new Grid(4, 4, 0.0);
+        assertFalse(grid.hasAliveCells());
+
+        grid.evolve();
+        assertFalse(grid.hasAliveCells());
+
+        for (int i = 0; i < 5; i++) {
+            grid.evolve();
+            assertFalse(grid.hasAliveCells());
+        }
     }
 
 

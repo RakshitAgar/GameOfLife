@@ -2,7 +2,6 @@ package org.example;
 
 import org.example.Exceptions.InvalidGridSizeException;
 import org.example.Exceptions.InvalidPercentageException;
-
 import java.util.Random;
 
 public class Grid {
@@ -46,18 +45,49 @@ public class Grid {
         }
     }
 
-    public boolean checkCellStatus(int row, int col) {
-        return cells[row][col].isAlive();
+    public void evolve() {
+        boolean[][] nextGeneration = new boolean[rows][cols];
+
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                int aliveNeighbors = countAliveNeighbors(row, col);
+                boolean currentState = cells[row][col].isAlive();
+
+                if (currentState && (aliveNeighbors == 2 || aliveNeighbors == 3)) {
+                    nextGeneration[row][col] = true;
+                } else {
+                    nextGeneration[row][col] = !currentState && aliveNeighbors == 3;
+                }
+            }
+        }
+
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                cells[row][col].changeCellStatus(nextGeneration[row][col]);
+            }
+        }
     }
 
-    public void setCellStatus(int row, int col, boolean status) {
-        cells[row][col].changeCellStatus(status);
+    private int countAliveNeighbors(int row, int col) {
+        int count = 0;
+
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (i == 0 && j == 0) continue;
+                int newRow = (row + i + rows) % rows;
+                int newCol = (col + j + cols) % cols;
+                if (cells[newRow][newCol].isAlive()) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
-    public boolean checkGridStatus() {
+    public boolean hasAliveCells() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (checkCellStatus(i, j)) {
+                if (cells[i][j].isAlive()) {
                     return true;
                 }
             }
@@ -68,7 +98,7 @@ public class Grid {
     public void displayGrid() {
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                System.out.print(checkCellStatus(row, col) ? "■ " : "□ ");
+                System.out.print(cells[row][col].isAlive() ? "■ " : "□ ");
             }
             System.out.println();
         }
