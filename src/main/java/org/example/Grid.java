@@ -39,31 +39,35 @@ public class Grid {
             int randomCol = random.nextInt(cols);
 
             if (!cells[randomRow][randomCol].isAlive()) {
-                cells[randomRow][randomCol].changeCellStatus(true);
+                cells[randomRow][randomCol].setAlive(true);
                 aliveCells++;
             }
         }
     }
 
     public void evolve() {
-        boolean[][] nextGeneration = new boolean[rows][cols];
+        Cell[][] nextGeneration = new Cell[rows][cols];
 
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                int aliveNeighbors = countAliveNeighbors(row, col);
-                boolean currentState = cells[row][col].isAlive();
-
-                if (currentState && (aliveNeighbors == 2 || aliveNeighbors == 3)) {
-                    nextGeneration[row][col] = true;
-                } else {
-                    nextGeneration[row][col] = !currentState && aliveNeighbors == 3;
-                }
+        // Initialize new cells
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                nextGeneration[i][j] = new Cell();
             }
         }
 
+        // Calculate next generation
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                cells[row][col].changeCellStatus(nextGeneration[row][col]);
+                int aliveNeighbors = countAliveNeighbors(row, col);
+                boolean nextState = cells[row][col].determineNextState(aliveNeighbors);
+                nextGeneration[row][col].setAlive(nextState);
+            }
+        }
+
+        // Update cells
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                cells[row][col].setAlive(nextGeneration[row][col].isAlive());
             }
         }
     }
