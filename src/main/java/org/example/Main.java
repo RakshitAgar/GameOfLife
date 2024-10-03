@@ -11,7 +11,7 @@ public class Main {
         int n = scanner.nextInt();
 
         System.out.println("Enter seed percentage (0-100):");
-        double seedPercentage = scanner.nextDouble() / 100.0;
+        double seedPercentage = scanner.nextDouble();
 
         Game game = new Game(m, n, seedPercentage,scanner);
         game.startGame();

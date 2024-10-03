@@ -39,7 +39,7 @@ public class Grid {
             int randomCol = random.nextInt(cols);
 
             if (!cells[randomRow][randomCol].isAlive()) {
-                cells[randomRow][randomCol].setAlive(true);
+                cells[randomRow][randomCol].changeCellState(true);
                 aliveCells++;
             }
         }
@@ -60,14 +60,14 @@ public class Grid {
             for (int col = 0; col < cols; col++) {
                 int aliveNeighbors = countAliveNeighbors(row, col);
                 boolean nextState = cells[row][col].determineNextState(aliveNeighbors);
-                nextGeneration[row][col].setAlive(nextState);
+                nextGeneration[row][col].changeCellState(nextState);
             }
         }
 
         // Update cells
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                cells[row][col].setAlive(nextGeneration[row][col].isAlive());
+                cells[row][col].changeCellState(nextGeneration[row][col].isAlive());
             }
         }
     }

@@ -1,7 +1,6 @@
 package org.example;
 
 import org.example.Exceptions.InvalidGridSizeException;
-import org.example.Grid;
 
 import java.util.Scanner;
 

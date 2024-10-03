@@ -29,7 +29,7 @@ class CellTest {
     @Test
     public void testCellStageByAliveNeighborsWith3AliveNeighbour() {
         Cell aliveCell = new Cell();
-        aliveCell.setAlive(true);
+        aliveCell.changeCellState(true);
 
         int aliveNeighbors = 3;
         assertTrue(aliveCell.determineNextState(aliveNeighbors));
@@ -38,7 +38,7 @@ class CellTest {
     @Test
     public void testCellStageByAliveNeighborsWith2AliveNeighbour() {
         Cell aliveCell = new Cell();
-        aliveCell.setAlive(true);
+        aliveCell.changeCellState(true);
 
         int aliveNeighbors = 2;
         assertTrue(aliveCell.determineNextState(aliveNeighbors));
@@ -47,7 +47,7 @@ class CellTest {
     @Test
     public void testCellStageByAliveNeighborsWith1AliveNeighbour() {
         Cell aliveCell = new Cell();
-        aliveCell.setAlive(true);
+        aliveCell.changeCellState(true);
 
         int aliveNeighbors = 1;
         assertFalse(aliveCell.determineNextState(aliveNeighbors));
@@ -56,7 +56,7 @@ class CellTest {
     @Test
     public void testCellStageByAliveNeighborsWith4AliveNeighbour() {
         Cell aliveCell = new Cell();
-        aliveCell.setAlive(true);
+        aliveCell.changeCellState(true);
 
         int aliveNeighbors = 4;
         assertFalse(aliveCell.determineNextState(aliveNeighbors));

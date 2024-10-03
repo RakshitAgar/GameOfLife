@@ -11,8 +11,8 @@ public class Cell {
         return isAlive;
     }
 
-    public void setAlive(boolean alive) {
-        this.isAlive = alive;
+    public void changeCellState(boolean cellState) {
+        this.isAlive = cellState;
     }
 
     public boolean determineNextState(int aliveNeighbors) {
