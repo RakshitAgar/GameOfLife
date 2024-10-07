@@ -20,6 +20,7 @@ public class Grid {
         this.cols = cols;
         cells = new Cell[rows][cols];
         initializeGrid(seedPercentage);
+        assignNeighbors();
     }
 
     private void initializeGrid(double seedPercentage) {
@@ -58,8 +59,7 @@ public class Grid {
         // Calculate next generation
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                int aliveNeighbors = countAliveNeighbors(row, col);
-                boolean nextState = cells[row][col].determineNextState(aliveNeighbors);
+                boolean nextState = cells[row][col].determineNextState();
                 nextGeneration[row][col].changeCellState(nextState);
             }
         }
@@ -70,22 +70,6 @@ public class Grid {
                 cells[row][col].changeCellState(nextGeneration[row][col].isAlive());
             }
         }
-    }
-
-    private int countAliveNeighbors(int row, int col) {
-        int count = 0;
-
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                if (i == 0 && j == 0) continue;
-                int newRow = (row + i + rows) % rows;
-                int newCol = (col + j + cols) % cols;
-                if (cells[newRow][newCol].isAlive()) {
-                    count++;
-                }
-            }
-        }
-        return count;
     }
 
     public boolean hasAliveCells() {
@@ -108,4 +92,24 @@ public class Grid {
         }
         System.out.println();
     }
+
+    private void assignNeighbors() {
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                Cell cell = cells[row][col];
+
+                // Assign all 8 neighbors (account for edges with modulo operator)
+                for (int i = -1; i <= 1; i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        if (i == 0 && j == 0) continue; // Skip the current cell
+
+                        int neighborRow = (row + i + rows) % rows;
+                        int neighborCol = (col + j + cols) % cols;
+                        cell.addNeighbor(cells[neighborRow][neighborCol]);
+                    }
+                }
+            }
+        }
+    }
+
 }
